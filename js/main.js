@@ -26,7 +26,8 @@ const modalPrice = document.querySelector('.modal-pricetag');
 const clearCart = document.querySelector('.clear-cart');
 const cardInfo = document.querySelector('.card-info');
 
-let login = localStorage.getItem('gloDelivery'); // получить значение из localStorage
+// получаем значение из localStorage
+let login = localStorage.getItem('gloDelivery');
 
 const cart = [];
 
@@ -54,9 +55,7 @@ const getData = async (url) => {
     return await response.json();
 };
 
-getData('../db/partners.json');
-
-const valid = function(str) {
+const validName = function(str) {
     const nameReg = /^[a-zA-Z][a-zA-Z0-9-_\.]{1,20}$/;
     return nameReg.test(str);
 };
@@ -76,6 +75,7 @@ const toggleModalAuth = () => {
     }
 };
 
+// по клику на логотип вернуться на главную
 const returnMain = () => {
     containerPromo.classList.remove('hide');
     restaurants.classList.remove('hide');
@@ -114,12 +114,11 @@ const autorized = () => {
 };
 
 const notAutorized = () => {
-    console.log('noAuth');
 
     const logIn = event => {
         event.preventDefault();
 
-        if(valid(loginInput.value.trim())) {
+        if(validName(loginInput.value.trim())) {
             login = loginInput.value;
             localStorage.setItem('gloDelivery', login); // свойство setItem добавляет свойство со значением
             toggleModalAuth();
@@ -221,7 +220,8 @@ const openGoods = event => {
 
     if (login) { // если авторизован, перейти в ресторан
 
-        const restaurant = target.closest('.card-restaurant');// ищет родителя с таким селектором
+        // поднимается по элементам пока не найдет родителя с таким селектором
+        const restaurant = target.closest('.card-restaurant');
 
         if(restaurant) { 
             // 1-й вариант передачи данных (заголовок, рейтинг, от...) о ресторане на страницу меню
@@ -229,9 +229,12 @@ const openGoods = event => {
             // const [ name, price, stars, kitchen ] = info;
             const [ name, price, stars, kitchen ] = restaurant.info;
 
+            // сначала очищаем место для карточек меню
             cardsMenu.textContent = '';
+            // прячем заголовок и рестораны
             containerPromo.classList.add('hide');
             restaurants.classList.add('hide');
+            // показываем меню
             menu.classList.remove('hide');
 
             restaurantTitle.textContent = name;
@@ -412,7 +415,11 @@ function init() {
     new Swiper('.swiper-container', {
         loop: true,
         autoplay: true,
+        grabCursor: true,
+        effect: 'coverflow',
     });
 }
 
 init();
+
+getData('../db/partners.json');
