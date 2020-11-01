@@ -68,6 +68,12 @@ const toggleModal = () => {
 const toggleModalAuth = () => {
     loginInput.style.borderColor = '';
     modalAuth.classList.toggle('is-open');
+
+    if (modalAuth.classList.contains('is-open')) {
+        disableScroll();
+    } else {
+        enableScroll();
+    }
 };
 
 const returnMain = () => {
@@ -124,15 +130,19 @@ const notAutorized = () => {
             loginForm.reset();
             checkAuth();
         } else {
-            loginInput.style.borderColor = 'red';
+            loginInput.style.borderColor = '#ff0000';
             loginInput.style.outline = 'transparent';
-            // loginInput.value = '';
         }
     }
     
     buttonAuth.addEventListener('click', toggleModalAuth );
     closeAuth.addEventListener('click', toggleModalAuth );
     loginForm.addEventListener('submit', logIn);
+    modalAuth.addEventListener('click', function(e) {
+        if (e.target.classList.contains('is-open')) {
+            toggleModalAuth();
+        }
+    });
 };
 
 // проверка авторизации
@@ -362,6 +372,7 @@ function init() {
                     });
 
                     products.forEach(function(product) {
+
                         getData(`../db/${product}`)
                             .then(function(data) {
                                 goods.push(...data);
@@ -390,6 +401,7 @@ function init() {
                                 return searchGoods;
 
                             }).then( data => data.forEach(createCardGood) );
+
                     });
             });
         }
