@@ -838,3 +838,7 @@ button {
         margin-right: 0;
     }
 }
+
+.swiper-slide {
+    min-height: 360px;
+}

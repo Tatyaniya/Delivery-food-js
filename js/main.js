@@ -26,6 +26,14 @@ const modalPrice = document.querySelector('.modal-pricetag');
 const clearCart = document.querySelector('.clear-cart');
 const cardInfo = document.querySelector('.card-info');
 
+
+// перебор ссылок
+// const str = 'сыр \n соус \n сосиска';
+// str.split('\n').map(string => string.trim()).forEach(item => {
+//     document.body.insertAdjacentHTML('beforeend', `
+//         <a href='#${item}'>${item}</a>
+//     `)});
+
 // получаем значение из localStorage
 let login = localStorage.getItem('gloDelivery');
 
@@ -46,7 +54,7 @@ const loadCart = () => {
 };
 
 // Получение данных с сервера
-const getData = async (url) => {
+const getData = async function(url) {
     const response = await fetch(url);
 
     if(!response.ok) {
@@ -237,6 +245,7 @@ const openGoods = event => {
             // показываем меню
             menu.classList.remove('hide');
 
+            // Даные о ресторане
             restaurantTitle.textContent = name;
             rating.textContent = stars;
             minPrice.textContent = `От ${price} ₽`;
@@ -347,7 +356,8 @@ function init() {
     
     logo.addEventListener('click', returnMain);
 
-    inputSearch.addEventListener('keydown', event => {
+    // поиск
+    inputSearch.addEventListener('keypress', event => {
         if(event.keyCode === 13) {
             const target = event.target;
             const value = target.value.toLowerCase().trim();
@@ -386,9 +396,7 @@ function init() {
                                     } else {
                                         cardInfo.textContent = 'По вашему запросу ничего не найдено';
                                     }
-                                   
                                 });
-                                console.log(searchGoods);
 
                                 cardsMenu.textContent = '';
 
@@ -406,6 +414,7 @@ function init() {
                             }).then( data => data.forEach(createCardGood) );
 
                     });
+                
             });
         }
     });
